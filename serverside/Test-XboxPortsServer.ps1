@@ -44,9 +44,47 @@ function New-TcpListener {
     }
     catch {
         $log.error(@("Failed to start listener on TCP port '$tcpPort'.", $_.exception.message, $_.scriptStackTrace))
+        return
     }
 
     return $listener
+}
+
+function New-UdpListener {
+    param (
+        [string] $udpPort
+    )
+    try {
+        $endPoint = New-Object System.Net.IPEndpoint([System.Net.IPAddress]::Any, $udpPort)
+        $udpClient = New-Object System.Net.Sockets.UdpClient -ArgumentList $udpPort
+        $udpClient.client.receiveTimeout = 100000
+        #$udpClient.client.blocking = $false
+        $log.info("Created UDP listener on port '$udpPort'.")
+    }
+    catch {
+        $log.error(@("Failed to create listener on UDP port '$udpPort'.", $_.exception.message, $_.scriptStackTrace))
+        return
+    }
+
+    return $udpClient, $endPoint
+}
+
+function Start-UdpListener {
+    param (
+        [object] $udpClient,
+        [ref] $endPoint
+    )
+
+    $log.info("Starting UDP listener on port '$($udpClient.client.localEndpoint.port)'.")
+    try {
+        $receivedData = $udpClient.Receive($endPoint)
+        $log.info("Received data.")
+    }
+    catch {
+        $log.error(@("Failed to receive data.", $_.exception.message, $_.scriptStackTrace))
+    }
+
+    return $receivedData
 }
 
 # Declare
@@ -57,9 +95,26 @@ $log = Import-PsLogger -logLevel $logLevel -logFile $logFile
 $tcpPorts = @("53", "80", "3074", "60209")
 $udpPorts = @("53", "88", "500", "3074", "3544", "4500")
 
+<#
+$tcpListeners = $tcpPorts.foreach{
+    New-TcpListener -tcpPort $_
+}
+#>
 
-$port = 2020
-$endpoint = new-object System.Net.IPEndPoint ([IPAddress]::Any,$port)
-$udpclient = new-Object System.Net.Sockets.UdpClient $port
-$content = $udpclient.Receive([ref]$endpoint)
-[Text.Encoding]::ASCII.GetString($content)
+$udpClients = New-Object System.Collections.ArrayList
+$endPoints = New-Object System.Collections.ArrayList
+
+$udpPorts[0..1].foreach{
+    $udpClient, $endPoint = New-UdpListener -udpPort $_
+    [void]$udpClients.Add($udpClient)
+    [void]$endPoints.Add($endPoint)
+}
+
+for ($i=0 ; $i -le $udpClients.Count ; $i++ ) {
+    $endPoint = [ref]$endpoints[$i]
+    $receivedData = Start-UdpListener -udpClient $udpClients[$i] -endPoint $endPoint
+    [Text.Encoding]::ASCII.GetString($receivedData)
+} 
+
+
+$udpClients.foreach{$_.Close()}

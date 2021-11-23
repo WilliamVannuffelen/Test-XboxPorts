@@ -1,0 +1,26 @@
+﻿2021-11-23 16:16:29 - INFO: Imported legacy psLogger module.
+2021-11-23 16:16:29 - ERROR: Failed to create listener on UDP port '53'.
+2021-11-23 16:16:29 - ERROR: Exception calling ".ctor" with "1" argument(s): "Only one usage of each socket address (protocol/network address/port) is normally permitted"
+2021-11-23 16:16:29 - ERROR: at New-UdpListener, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 59
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 108
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 107
+2021-11-23 16:16:29 - ERROR: Failed to create listener on UDP port '88'.
+2021-11-23 16:16:29 - ERROR: Exception calling ".ctor" with "1" argument(s): "Only one usage of each socket address (protocol/network address/port) is normally permitted"
+2021-11-23 16:16:29 - ERROR: at New-UdpListener, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 59
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 108
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 107
+2021-11-23 16:16:29 - INFO: Starting UDP listener on port ''.
+2021-11-23 16:16:29 - ERROR: Failed to receive data.
+2021-11-23 16:16:29 - ERROR: You cannot call a method on a null-valued expression.
+2021-11-23 16:16:29 - ERROR: at Start-UdpListener, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 80
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 115
+2021-11-23 16:16:30 - INFO: Starting UDP listener on port ''.
+2021-11-23 16:16:30 - ERROR: Failed to receive data.
+2021-11-23 16:16:30 - ERROR: You cannot call a method on a null-valued expression.
+2021-11-23 16:16:30 - ERROR: at Start-UdpListener, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 80
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 115
+2021-11-23 16:16:30 - INFO: Starting UDP listener on port ''.
+2021-11-23 16:16:30 - ERROR: Failed to receive data.
+2021-11-23 16:16:30 - ERROR: You cannot call a method on a null-valued expression.
+2021-11-23 16:16:30 - ERROR: at Start-UdpListener, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 80
+at <ScriptBlock>, C:\Users\wvannuffele4\Documents\Wintel\VO\Scripts\Test-XboxPorts\Test-XboxPorts\serverside\Test-XboxPortsServer.ps1: line 115

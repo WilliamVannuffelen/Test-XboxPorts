@@ -32,28 +32,6 @@ function Stop-Script {
     }
 }
 
-
-function Test-TcpPort {
-    param (
-        [string] $ipAddress,
-        [string] $tcpPort
-    )
-
-    try {
-        $res = Test-NetConnection -ipAddress $ipAddress -port $tcpPort -ErrorAction Stop
-        $log.info("Tested connectivity to port '$tcpPort'.")
-    }
-    catch {
-        $log.error(@("Failed to test connectivity to port '$tcpPort'.", $_.exception.message, $_.scriptStackTrace))
-        Stop-Script -exitCode 1
-    }
-    
-    return [psCustomobject]@{
-        tcpPort = $res.remotePort
-        success = $tcpTestSucceeded
-    }
-}
-
 function New-ASCIIEncoding {
     param ()
 
@@ -103,6 +81,27 @@ function Get-ASCIIString {
     return $asciiString
 }
 
+function Test-TcpPort {
+    param (
+        [string] $ipAddress,
+        [string] $tcpPort
+    )
+
+    try {
+        $res = Test-NetConnection -ipAddress $ipAddress -port $tcpPort -ErrorAction Stop
+        $log.info("Tested connectivity to port '$tcpPort'.")
+    }
+    catch {
+        $log.error(@("Failed to test connectivity to port '$tcpPort'.", $_.exception.message, $_.scriptStackTrace))
+        Stop-Script -exitCode 1
+    }
+    
+    return [psCustomobject]@{
+        tcpPort = $res.remotePort
+        success = $tcpTestSucceeded
+    }
+}
+
 function Test-UdpPort { 
     param (
         [string] $ipAddress,
@@ -112,7 +111,7 @@ function Test-UdpPort {
     )
 
     try {
-        $udpClient = New-Object System.Net.Sockets.UdpClient(11000)
+        $udpClient = New-Object System.Net.Sockets.UdpClient
         $udpClient.client.ReceiveTimeout = 10000
         $log.info("Started UDP client with 10 second timeout.")
     }
@@ -150,7 +149,6 @@ function Test-UdpPort {
             $log.error(@("Failed to receive data from target UDP port '$udpPort'.", $_.exception.message, $_.scriptStackTrace))
         }
     }
-
 
     return $receivedBytes
 }
