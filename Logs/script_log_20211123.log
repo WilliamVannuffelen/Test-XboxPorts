@@ -1,0 +1,94 @@
+﻿2021-11-23 00:06:17 - ERROR: Failed to import legacy psLogger. Terminating.
+The specified module 'C:\Powershell\PsLogger_legacy.psm1' was not loaded because no valid module file was found in any module directory.
+2021-11-23 00:06:39 - INFO: Imported legacy psLogger module.
+2021-11-23 00:06:39 - INFO: Started UDP client.
+2021-11-23 00:06:39 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:06:39 - INFO: Converted message '' to byte array.
+2021-11-23 00:06:39 - INFO: Connected to UDP port ''.
+2021-11-23 00:06:48 - INFO: Imported legacy psLogger module.
+2021-11-23 00:06:48 - ERROR: Failed to start UDP client.
+2021-11-23 00:06:48 - ERROR: Exception calling ".ctor" with "1" argument(s): "Only one usage of each socket address (protocol/network address/port) is normally permitted"
+2021-11-23 00:06:48 - ERROR: at Test-UdpPort, C:\Powershell\Test-XboxPorts.ps1: line 65
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 108
+2021-11-23 00:06:48 - INFO: Script terminated due to a fatal exception.
+2021-11-23 00:07:09 - INFO: Imported legacy psLogger module.
+2021-11-23 00:07:09 - INFO: Started UDP client.
+2021-11-23 00:07:09 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:07:09 - INFO: Converted message '' to byte array.
+2021-11-23 00:07:09 - INFO: Connected to UDP port ''.
+2021-11-23 00:07:09 - INFO: Sent data to target UDP port ''.
+2021-11-23 00:07:17 - INFO: Imported legacy psLogger module.
+2021-11-23 00:07:17 - INFO: Started UDP client.
+2021-11-23 00:07:17 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:07:17 - INFO: Converted message '' to byte array.
+2021-11-23 00:07:17 - INFO: Connected to UDP port ''.
+2021-11-23 00:07:17 - INFO: Sent data to target UDP port ''.
+2021-11-23 00:08:17 - INFO: Imported legacy psLogger module.
+2021-11-23 00:08:17 - INFO: Started UDP client.
+2021-11-23 00:08:17 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:08:17 - INFO: Converted message '' to byte array.
+2021-11-23 00:08:17 - INFO: Connected to UDP port '12345'.
+2021-11-23 00:08:17 - INFO: Sent data to target UDP port '12345'.
+2021-11-23 00:32:45 - INFO: Imported legacy psLogger module.
+2021-11-23 00:32:45 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:32:45 - INFO: Converted ASCII string 'Hello Bennett, testing UDP!' to byte array.
+2021-11-23 00:32:45 - ERROR: Failed to convert byte array to ASCII string.
+2021-11-23 00:32:45 - ERROR: Exception calling "GetString" with "1" argument(s): "Array cannot be null.
+Parameter name: bytes"
+2021-11-23 00:32:45 - ERROR: at Get-ASCIIString, C:\Powershell\Test-XboxPorts.ps1: line 95
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 162
+2021-11-23 00:32:45 - INFO: Script terminated due to a fatal exception.
+2021-11-23 00:34:12 - INFO: Imported legacy psLogger module.
+2021-11-23 00:34:12 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:34:12 - INFO: Converted ASCII string 'Hello Bennett, testing UDP!' to byte array.
+2021-11-23 00:34:12 - ERROR: Failed to convert byte array to ASCII string.
+2021-11-23 00:34:12 - ERROR: Exception calling "GetString" with "1" argument(s): "Array cannot be null.
+Parameter name: bytes"
+2021-11-23 00:34:12 - ERROR: at Get-ASCIIString, C:\Powershell\Test-XboxPorts.ps1: line 95
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 162
+2021-11-23 00:34:12 - INFO: Script terminated due to a fatal exception.
+2021-11-23 00:34:24 - INFO: Imported legacy psLogger module.
+2021-11-23 00:34:24 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:34:24 - INFO: Converted ASCII string 'Hello Bennett, testing UDP!' to byte array.
+2021-11-23 00:34:24 - ERROR: Failed to convert byte array to ASCII string.
+2021-11-23 00:34:24 - ERROR: Exception calling "GetString" with "1" argument(s): "Array cannot be null.
+Parameter name: bytes"
+2021-11-23 00:34:24 - ERROR: at Get-ASCIIString, C:\Powershell\Test-XboxPorts.ps1: line 95
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 162
+2021-11-23 00:34:24 - INFO: Script terminated due to a fatal exception.
+2021-11-23 00:35:09 - INFO: Imported legacy psLogger module.
+2021-11-23 00:35:09 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:35:09 - INFO: Converted ASCII string 'Hello Bennett, testing UDP!' to byte array.
+2021-11-23 00:35:09 - INFO: Started UDP client.
+2021-11-23 00:35:09 - INFO: Connected to UDP port '12345'.
+2021-11-23 00:35:09 - INFO: Sent data to target UDP port '12345'.
+2021-11-23 00:35:09 - ERROR: Failed to convert byte array to ASCII string.
+2021-11-23 00:35:09 - ERROR: Exception calling "GetString" with "1" argument(s): "Array cannot be null.
+Parameter name: bytes"
+2021-11-23 00:35:09 - ERROR: at Get-ASCIIString, C:\Powershell\Test-XboxPorts.ps1: line 95
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 162
+2021-11-23 00:35:09 - INFO: Script terminated due to a fatal exception.
+2021-11-23 00:35:55 - INFO: Imported legacy psLogger module.
+2021-11-23 00:35:55 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:35:55 - INFO: Converted ASCII string 'Hello Bennett, testing UDP!' to byte array.
+2021-11-23 00:35:55 - INFO: Started UDP client.
+2021-11-23 00:35:55 - INFO: Connected to UDP port '12345'.
+2021-11-23 00:35:55 - INFO: Sent data to target UDP port '12345'.
+2021-11-23 00:35:55 - ERROR: Failed to convert byte array to ASCII string.
+2021-11-23 00:35:55 - ERROR: Exception calling "GetString" with "1" argument(s): "Array cannot be null.
+Parameter name: bytes"
+2021-11-23 00:35:55 - ERROR: at Get-ASCIIString, C:\Powershell\Test-XboxPorts.ps1: line 95
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 162
+2021-11-23 00:35:55 - INFO: Script terminated due to a fatal exception.
+2021-11-23 00:53:58 - INFO: Imported legacy psLogger module.
+2021-11-23 00:53:58 - INFO: Instatiated ASCII encoding object.
+2021-11-23 00:53:58 - INFO: Converted ASCII string 'Hello Bennett, testing UDP!' to byte array.
+2021-11-23 00:53:58 - INFO: Started UDP client with 10 second timeout.
+2021-11-23 00:53:58 - INFO: Connected to UDP port '12345'.
+2021-11-23 00:53:58 - INFO: Sent data to target UDP port '12345'.
+2021-11-23 00:54:08 - ERROR: Failed to convert byte array to ASCII string.
+2021-11-23 00:54:08 - ERROR: Exception calling "GetString" with "1" argument(s): "Array cannot be null.
+Parameter name: bytes"
+2021-11-23 00:54:08 - ERROR: at Get-ASCIIString, C:\Powershell\Test-XboxPorts.ps1: line 95
+at <ScriptBlock>, C:\Powershell\Test-XboxPorts.ps1: line 175
+2021-11-23 00:54:08 - INFO: Script terminated due to a fatal exception.
