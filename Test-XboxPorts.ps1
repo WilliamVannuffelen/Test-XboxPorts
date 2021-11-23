@@ -1,3 +1,17 @@
+#Requires -Version 5.1
+
+[cmdletBinding()]
+param (
+    [parameter(mandatory=$false)]
+    [switch] $tcp,
+    [parameter(mandatory=$false)]
+    [switch] $udp,
+    [parameter(mandatory=$false)]
+    [string[]] $ports,
+    [parameter(mandatory=$false)]
+    [string] $ipAddress = "127.0.0.1"
+)
+
 function Import-PsLogger {
     param(
         [string] $logLevel,
@@ -32,6 +46,41 @@ function Stop-Script {
     }
 }
 
+function Test-NetConnectionCustom{
+    param(
+        [string] $ipAddress,
+        [string] $tcpPort
+    )
+    try {
+        $tcpClient = New-Object System.Net.Sockets.TcpClient
+        if (-not $tcpClient.ConnectAsync($ipAddress,$tcpPort).Wait(1000)){
+            $log.info("Failed to connect to TCP port '$tcpPort'.")
+            return [psCustomObject]@{
+                ipAddress = $ipAddress
+                tcpPort = $tcpPort
+                connSuccess = $false
+            }
+        }
+        else{
+            $log.info("Successfully connected to TCP port '$tcpPort'.")
+            return [psCustomObject]@{
+                ipAddress = $ipAddress
+                tcpPort = $tcpPort
+                connSuccess = $true
+            }
+        }
+    }
+    catch{
+        $log.error(@("Failed to test TCP port connectivity.", $_.exception.message, $_.scriptStackTrace))
+        throw $_
+    }
+    finally {
+        if ($tcpClient) {
+            $tcpClient.close()
+        }
+    }
+}
+
 function New-ASCIIEncoding {
     param ()
 
@@ -58,7 +107,6 @@ function Get-ASCIIBytes {
     }
     catch {
         $log.error(@("Failed to convert ASCII string to byte array.", $_.exception.message, $_.scriptStackTrace))
-        Stop-Script -exitCode 1
     }
 
     return $asciiBytes
@@ -75,7 +123,6 @@ function Get-ASCIIString {
     }
     catch {
         $log.error(@("Failed to convert byte array to ASCII string.", $_.exception.message, $_.scriptStackTrace))
-        Stop-Script -exitCode 1
     }
     
     return $asciiString
@@ -88,18 +135,14 @@ function Test-TcpPort {
     )
 
     try {
-        $res = Test-NetConnection -ipAddress $ipAddress -port $tcpPort -ErrorAction Stop
+        $res = Test-NetConnectionCustom -ipAddress $ipAddress -tcpPort $tcpPort
         $log.info("Tested connectivity to port '$tcpPort'.")
     }
     catch {
         $log.error(@("Failed to test connectivity to port '$tcpPort'.", $_.exception.message, $_.scriptStackTrace))
-        Stop-Script -exitCode 1
     }
     
-    return [psCustomobject]@{
-        tcpPort = $res.remotePort
-        success = $tcpTestSucceeded
-    }
+    return $res
 }
 
 function Test-UdpPort { 
@@ -112,7 +155,7 @@ function Test-UdpPort {
 
     try {
         $udpClient = New-Object System.Net.Sockets.UdpClient
-        $udpClient.client.ReceiveTimeout = 10000
+        $udpClient.client.ReceiveTimeout = 100
         $log.info("Started UDP client with 10 second timeout.")
     }
     catch {
@@ -141,9 +184,12 @@ function Test-UdpPort {
         $receivedBytes = $udpClient.Receive($remoteEndpoint)
         $log.info("Successfully sent test data to target UDP endpoint.")
     }
-    catch [SocketException] {
+    catch {
         if ($_.excepion.message -match "An existing connection was forcibly closed by the remote host") {
             $log.warn(@("Failed to send data to target UDP port '$udpPort'. This means nothing is listening on the port.", $_.exception.message, $_.scriptStackTrace))
+        }
+        elseif ($_.exception.message -like "*A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond*") {
+            $log.info("UDP datagram was most likely sent successfully.")
         }
         else {
             $log.error(@("Failed to receive data from target UDP port '$udpPort'.", $_.exception.message, $_.scriptStackTrace))
@@ -154,22 +200,55 @@ function Test-UdpPort {
 }
 
 # Declare
-$logFile = "$psScriptRoot\Logs\script_log_$(Get-Date -Format 'yyyyMMdd').log"
+$logFile = "$psScriptRoot\Logs\test_ports_client_log_$(Get-Date -Format 'yyyyMMdd').log"
 $logLevel = "info" # options: debug, info, warn, error
 $log = Import-PsLogger -logLevel $logLevel -logFile $logFile
 
-$tcpPorts = @("53", "80", "3074", "60209")
-$udpPorts = @("53", "88", "500", "3074", "3544", "4500")
-
-$message = "Hello Bennett, testing UDP!"
-
-# Init
-$asciiEncoding = New-ASCIIEncoding
-$messageBytes = Get-ASCIIBytes -asciiEncoding $asciiEncoding -asciiString $message
 $remoteEndpoint = New-Object System.Net.IPEndPoint([System.Net.IPAddress]::Any, 0)
 
 # Invoke
-$receivedBytes = Test-UdpPort -ipAddress "127.0.0.1" -udpPort '12345' -message $messageBytes -remoteEndpoint ([ref]$remoteEndpoint)
-$receivedMessage = Get-ASCIIString -asciiEncoding $asciiEncoding -asciiBytes $receivedBytes
+if ($tcp) {
+    $log.info("TCP switch detected. Running TCP tests.")
+    if ($ports) {
+        $tcpPorts = @($ports)
+    }
+    else {
+        $tcpPorts = @("53", "80", "3074", "60209")
+    }
+
+    $tcpResults = $tcpPorts.foreach{
+        Test-TcpPort -ipAddress $ipAddress -tcpPort $_
+    }
+    
+    $tcpResults.foreach{
+        $tcpResult = $_
+        $log.info(("IP: '{0}' - PORT: '{1}' - CONNECTION SUCCESS: '{2}'." -f $tcpResult.ipAddress, $tcpResult.tcpPort, $tcpResult.connSuccess ))
+    }
+    $log.info("Finished with TCP tests.")
+}
+
+if ($udp) {
+    $log.info("UDP switch detected. Running UDP tests.")
+    if ($ports) {
+        $udpPorts = @($ports)
+    }
+    else {
+        $udpPorts = @("53", "88", "500", "3074", "3544", "4500")
+    }
+    $asciiEncoding = New-ASCIIEncoding
+    
+
+    $udpPorts.foreach{
+        $message = "Hello Bennett - Testing UDP port '$($_)'."
+        $messageBytes = Get-ASCIIBytes -asciiEncoding $asciiEncoding -asciiString $message
+        $receivedBytes = Test-UdpPort -ipAddress "127.0.0.1" -udpPort $_ -message $messageBytes -remoteEndpoint ([ref]$remoteEndpoint)
+        if ($receivedBytes) {
+            $receivedMessage = Get-ASCIIString -asciiEncoding $asciiEncoding -asciiBytes $receivedBytes
+        }
+    }
+
+    $log.info("Finished with UDP tests.")
+}
 
 
+$log.info("Script ended.")
