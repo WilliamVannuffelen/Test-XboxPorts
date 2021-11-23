@@ -1,0 +1,4 @@
+Logs/*
+!Logs/.gitignore
+serverside/Logs/*
+!serverside/Logs/.gitignore
